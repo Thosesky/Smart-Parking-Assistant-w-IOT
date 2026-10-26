@@ -5,18 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Parking Assistant - Source Code</title>
     <style>
+        /* Global Base Layout Styles */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
+        
+        /* Fixed Navigation Header */
         nav { position: fixed; top: 0; width: 100%; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; box-sizing: border-box; z-index: 1000; }
         .logo { font-size: 20px; font-weight: bold; color: #008080; }
         .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
         .nav-links li { margin-left: 20px; }
         .nav-links a { text-decoration: none; color: #555; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: #008080; font-weight: bold; }
+        
+        /* Main Container Card */
         .container { max-width: 900px; margin: 120px auto 40px auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         h2 { border-bottom: 3px solid #008080; padding-bottom: 8px; color: #2c3e50; }
         ul { line-height: 1.8; }
+        
+        /* Code Box Container Styling */
+        .code-container {
+            position: relative;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .code-header {
+            background-color: #2d2d2d;
+            color: #ccc;
+            padding: 10px 20px;
+            font-family: monospace;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+        }
+
+        .copy-btn {
+            background-color: #008080;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background-color: #006666;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            max-height: 500px; /* Scrollable if code is long */
+        }
+
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 14px;
+            color: #d4d4d4;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
         footer { text-align: center; padding: 20px; background-color: #333; color: white; margin-top: 50px; }
 
+        /* Loader Animation Styles */
         #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s ease; }
         .loader { position: relative; width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; }
         .car-icon { font-size: 32px; animation: bounce 1s infinite alternate ease-in-out; }
@@ -30,6 +90,7 @@
 </head>
 <body>
 
+    <!-- Global Page Loader Container -->
     <div id="loader-wrapper">
         <div class="loader">
             <div class="car-icon">🚗</div>
@@ -38,6 +99,7 @@
         <p class="loader-text">Loading Smart Parking System...</p>
     </div>
 
+    <!-- Global Navigation Header -->
     <nav>
         <div class="logo">🚗 Smart Parking</div>
         <ul class="nav-links">
@@ -49,6 +111,7 @@
         </ul>
     </nav>
 
+    <!-- Core Content Block -->
     <div class="container">
         <h2>GitHub Source Code</h2>
         <p>สามารถเข้าถึงซอร์สโค้ด (Source Code) และไฟล์เอกสารทั้งหมดของโปรเจกต์ได้ผ่านลิงก์ GitHub Repository ด้านล่างนี้:</p>
@@ -60,19 +123,202 @@
                 <em>(หมายเหตุ: ตัว Repository ได้ตั้งค่าสถานะเป็น Public เรียบร้อยแล้ว ตามข้อกำหนดของรายวิชา)</em>
             </li>
         </ul>
+
+        <h3 style="margin-top: 30px;">Arduino Microcontroller Source Code</h3>
+        
+        <!-- Interactive Code Viewer Component -->
+        <div class="code-container">
+            <div class="code-header">
+                <span>main.ino (Arduino C++)</span>
+                <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
+            </div>
+            <pre><code id="code-block">#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
+
+const int trigPin = 10;
+const int echoPin = 11;
+int warningDistance = 30; 
+
+const int mcp9700Pin = A0; 
+const int maxTempLimit = 70; 
+float currentTemp = 0.0;
+unsigned long lastTempRead = 0;
+
+const int buzzerPin = 12; 
+
+const byte ROWS = 4;
+const byte COLS = 4;
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+byte rowPins[ROWS] = {9, 8, 7, 6}; 
+byte colPins[COLS] = {5, 4, 3, 2}; 
+
+String inputBuffer = ""; 
+
+void setup() {
+  Serial.begin(9600);
+  
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Smart Garage System");
+  
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+  digitalWrite(buzzerPin, LOW);
+
+  for (int i = 0; i &lt; ROWS; i++) pinMode(rowPins[i], INPUT_PULLUP);
+  for (int i = 0; i &lt; COLS; i++) pinMode(colPins[i], INPUT);
+
+  delay(1500);
+  lcd.clear();
+}
+
+void loop() {
+  if (millis() - lastTempRead &gt;= 1000) {
+    lastTempRead = millis();
+    long sumRaw = 0;
+    for (int i = 0; i &lt; 10; i++) {
+      sumRaw += analogRead(mcp9700Pin);
+      delay(2);
+    }
+    float avgRaw = sumRaw / 10.0;
+    float voltage = avgRaw * (5.0 / 1023.0);
+    currentTemp = (voltage - 0.5) * 100.0;
+  }
+
+  int currentDistance = getDistance();
+  
+  char key = getCustomKey();
+  
+  if (key) {
+    if (key &gt;= '0' &amp;&amp; key &lt;= '9') {
+      if (inputBuffer.length() &lt; 3) {
+        inputBuffer += key;
+      }
+    } 
+    else if (key == 'A') { 
+      if (inputBuffer.length() &gt; 0) {
+        warningDistance = inputBuffer.toInt();
+        inputBuffer = "";
+        lcd.clear();
+        lcd.print("Set Limit: Saved!");
+        delay(1000);
+        lcd.clear();
+      }
+    }
+    else if (key == 'C') { 
+      inputBuffer = "";
+    }
+  }
+
+  bool isTempOverheat = (currentTemp &gt;= maxTempLimit);
+  bool isTooClose = (currentDistance &lt;= warningDistance);
+
+  if (isTempOverheat || isTooClose) {
+    digitalWrite(buzzerPin, HIGH);
+  } else {
+    digitalWrite(buzzerPin, LOW);
+  }
+
+  lcd.setCursor(0, 0);
+  lcd.print("D:");
+  lcd.print(currentDistance);
+  lcd.print("cm ");
+  
+  lcd.setCursor(9, 0);
+  lcd.print("T:");
+  lcd.print((int)currentTemp);
+  if (isTempOverheat) {
+    lcd.print("C! "); 
+  } else {
+    lcd.print((char)223); 
+    lcd.print("C  ");
+  }
+
+  lcd.setCursor(0, 1);
+  if (inputBuffer.length() &gt; 0) {
+    lcd.print("Set Limit: ");
+    lcd.print(inputBuffer);
+    lcd.print("  ");
+  } 
+  else if (isTempOverheat) {
+    lcd.print("!! OVERHEAT !!  ");
+  } 
+  else if (isTooClose) {
+    lcd.print("!!! STOP !!!    ");
+  } 
+  else {
+    lcd.print("Safe (Lim:");
+    lcd.print(warningDistance);
+    lcd.print(") ");
+  }
+  
+  delay(100);
+}
+
+int getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  return duration * 0.034 / 2;
+}
+
+char getCustomKey() {
+  char pressedKey = '\0';
+  for (int c = 0; c &lt; COLS; c++) {
+    pinMode(colPins[c], OUTPUT);
+    digitalWrite(colPins[c], LOW);
+    
+    for (int r = 0; r &lt; ROWS; r++) {
+      if (digitalRead(rowPins[r]) == LOW) {
+        pressedKey = keys[r][c];
+        delay(250); 
+      }
+    }
+    pinMode(colPins[c], INPUT);
+  }
+  return pressedKey;
+}</code></pre>
+        </div>
     </div>
 
+    <!-- Site Footer & Copyright Notice -->
     <footer>
         <p>Smart Parking Assistant Project - Physical Computing IT KMITL</p>
     </footer>
 
+    <!-- Scripts for Loader and Copy Code Button -->
     <script>
+        // Dismiss Loader on Page Load
         window.addEventListener('load', function() {
             const loaderWrapper = document.getElementById('loader-wrapper');
             setTimeout(() => {
                 loaderWrapper.classList.add('loader-hidden');
             }, 500);
         });
+
+        // Copy Code Functionality
+        function copyCode() {
+            const codeText = document.getElementById('code-block').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerText = '✅ Copied!';
+                setTimeout(() => {
+                    btn.innerText = '📋 Copy Code';
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>

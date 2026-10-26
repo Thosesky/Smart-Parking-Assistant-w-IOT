@@ -3,133 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Parking Assistant - Physical Computing Project</title>
+    <title>Smart Parking Assistant - Abstract</title>
     <style>
-        /* Smooth Scrolling Configuration */
-        html {
-            scroll-behavior: smooth;
-        }
-
         /* Global Base Layout Styles */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f8f9fa; 
+            color: #333; 
         }
 
         /* Fixed Navigation Header */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
-            box-sizing: border-box;
-            z-index: 1000;
+        nav { 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            background-color: #ffffff; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 50px; 
+            box-sizing: border-box; 
+            z-index: 1000; 
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #008080;
+        .logo { 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: #008080; 
         }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
+        .nav-links { 
+            list-style: none; 
+            display: flex; 
+            margin: 0; 
+            padding: 0; 
         }
 
-        .nav-links li {
-            margin-left: 20px;
+        .nav-links li { 
+            margin-left: 20px; 
         }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s;
+        .nav-links a { 
+            text-decoration: none; 
+            color: #555; 
+            font-weight: 500; 
+            transition: color 0.3s; 
         }
 
-        .nav-links a:hover {
-            color: #008080;
+        .nav-links a:hover, .nav-links a.active { 
+            color: #008080; 
+            font-weight: bold; 
         }
 
-        /* Primary Hero Section */
-        .hero {
-            background-color: #008080;
-            color: white;
-            text-align: center;
-            padding: 120px 20px 80px 20px;
-            margin-top: 50px;
+        /* Hero Banner Section */
+        .hero { 
+            background-color: #008080; 
+            color: white; 
+            text-align: center; 
+            padding: 100px 20px 60px 20px; 
+            margin-top: 50px; 
         }
 
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 44px;
+            margin-bottom: 10px;
         }
 
-        .hero p {
-            max-width: 800px;
-            margin: 0 auto 15px auto;
-            font-size: 18px;
-            line-height: 1.6;
+        /* Core Content Card */
+        .container { 
+            max-width: 900px; 
+            margin: 40px auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
         }
 
-        /* Main Content Container */
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        h2 { 
+            border-bottom: 3px solid #008080; 
+            padding-bottom: 8px; 
+            color: #2c3e50; 
         }
 
-        /* Section Offset to Prevent Sticky Header Overlap */
-        section {
-            padding-top: 80px;
-            margin-top: -60px;
-        }
-
-        h2 {
-            border-bottom: 3px solid #008080;
-            padding-bottom: 8px;
-            color: #2c3e50;
-        }
-
-        ul {
+        p {
             line-height: 1.8;
         }
 
         /* Main Footer Section */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-            margin-top: 50px;
+        footer { 
+            text-align: center; 
+            padding: 20px; 
+            background-color: #333; 
+            color: white; 
+            margin-top: 50px; 
+        }
+
+        /* Page Loader Base Overlay */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .car-icon {
+            font-size: 32px;
+            animation: bounce 1s infinite alternate ease-in-out;
+        }
+
+        .spinner {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #008080;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #008080;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* Animation Keyframes Definition */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        #loader-wrapper.loader-hidden {
+            opacity: 0;
+            visibility: hidden;
         }
     </style>
 </head>
 <body>
 
+    <!-- Global Page Loader Container -->
+    <div id="loader-wrapper">
+        <div class="loader">
+            <div class="car-icon">🚗</div>
+            <div class="spinner"></div>
+        </div>
+        <p class="loader-text">Loading Smart Parking System...</p>
+    </div>
+
     <!-- Global Navigation Header -->
     <nav>
         <div class="logo">🚗 Smart Parking</div>
         <ul class="nav-links">
-            <li><a href="#abstract">Abstract</a></li>
-            <li><a href="#video">Video</a></li>
-            <li><a href="#poster">Poster</a></li>
-            <li><a href="#details">Details</a></li>
-            <li><a href="#code">Code</a></li>
+            <li><a href="index.html" class="active">Abstract</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="poster.html">Poster</a></li>
+            <li><a href="details.html">Details</a></li>
+            <li><a href="code.html">Code</a></li>
         </ul>
     </nav>
 
@@ -137,8 +199,6 @@
     <div class="hero">
         <h1>Smart Parking Assistant</h1>
         <p><strong>ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ</strong></p>
-        <p>โครงงานพัฒนาขึ้นเพื่อช่วยแก้ปัญหาความยากลำบากในการกะระยะถอยรถเข้าพื้นที่จำกัด และเฝ้าระวังความร้อนสะสมภายในโรงรถอย่างมีประสิทธิภาพ</p>
-        
         <h3>รายชื่อสมาชิกกลุ่ม</h3>
         <p style="font-size: 16px;">
             68070011 - คมนรงค์ แสนสินชัย &nbsp;|&nbsp; 
@@ -147,59 +207,10 @@
         </p>
     </div>
 
-    <!-- Core Project Documentation Container -->
+    <!-- Main Content Body -->
     <div class="container">
-
-        <!-- Project Abstract Section -->
-        <section id="abstract">
-            <h2>1. บทคัดย่อ (Abstract)</h2>
-            <p>โครงงานนี้จัดทำขึ้นเพื่อพัฒนา "ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ (Smart Garage Parking Assistant)" โดยมีวัตถุประสงค์เพื่อแก้ปัญหาความยากลำบากในการกะระยะถอยรถเข้าพื้นที่จำกัด ซึ่งอาจก่อให้เกิดอุบัติเหตุเฉี่ยวชน รวมถึงช่วยเฝ้าระวังความร้อนสะสมภายในโรงรถที่อาจส่งผลกระทบต่อตัวรถ ระบบนี้พัฒนาขึ้นโดยใช้บอร์ดไมโครคอนโทรลเลอร์ร่วมกับเซนเซอร์และอุปกรณ์อิเล็กทรอนิกส์ ได้แก่ Ultra Sonic Sensor สำหรับวัดระยะห่างระหว่างท้ายรถกับผนังกำแพงแบบเรียลไทม์, Temp Sensor สำหรับตรวจสอบอุณหภูมิภายในโรงรถ, Keypad สำหรับให้ผู้ใช้ตั้งค่าระยะห่างปลอดภัย และแสดงผลข้อมูลระยะทางหรือสถานะการเตือนผ่านหน้าจอ 7-Segment ผลการดำเนินงานพบว่าระบบสามารถช่วยอำนวยความสะดวกในการถอยจอดได้อย่างแม่นยำ พร้อมทั้งแจ้งเตือนความผิดปกติของอุณหภูมิได้อย่างมีประสิทธิภาพ ช่วยเพิ่มความปลอดภัยให้กับทรัพย์สินและผู้ใช้งานได้เป็นอย่างดี</p>
-        </section>
-
-        <!-- Project Demonstration Video Section -->
-        <section id="video">
-            <h2>2. คลิปวิดีโอแนะนำโปรเจกต์</h2>
-            <p><i>WIP (ToBeAdd)</i></p>
-            <iframe width="100%" height="450" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
-        </section>
-
-        <!-- Project Poster Section -->
-        <section id="poster">
-            <h2>3. โปสเตอร์โปรเจกต์ (A1)</h2>
-            <p>WIP (ToBeAdd)</p>
-        </section>
-
-        <!-- System Architecture & Sensor Specification Section -->
-        <section id="details">
-            <h2>4. รายละเอียดการทำงานของวงจรและเซนเซอร์</h2>
-            <p>ในโครงงาน Smart Garage Parking Assistant มีการเชื่อมต่ออุปกรณ์ไมโครคอนโทรลเลอร์เข้ากับเซนเซอร์และโมดูลต่างๆ ดังนี้:</p>
-
-            <h3>4.1 ภาพรวมการทำงานของวงจร (Circuit Overview)</h3>
-            <p>วงจรหลักถูกออกแบบมาเพื่อติดตั้งบริเวณผนังด้านในสุดของโรงรถ โดยไมโครคอนโทรลเลอร์ทำหน้าที่เป็นศูนย์กลางในการรับสัญญาณข้อมูลจากอุปกรณ์ Input ประมวลผลตรรกะการทำงาน (Logic) และส่งคำสั่งแสดงผลออกไปยังอุปกรณ์ Output อย่างแม่นยำ</p>
-
-            <h3>4.2 รายละเอียดการทำงานของเซนเซอร์และอุปกรณ์ (Sensors & Modules)</h3>
-            <ul>
-                <li><strong>Ultra Sonic Sensor (Input):</strong> ทำหน้าที่ยิงคลื่นเสียงความถี่สูงเพื่อวัดระยะห่างระหว่างท้ายรถกับผนังกำแพงแบบเรียลไทม์ เพื่อให้ผู้ขับขี่ทราบระยะทางที่เหลือขณะถอยรถเข้าจอด</li>
-                <li><strong>Temperature Sensor (Input):</strong> ทำหน้าที่ตรวจสอบอุณหภูมิโดยรอบภายในโรงรถอย่างต่อเนื่อง เพื่อเฝ้าระวังความร้อนสะสมที่อาจเป็นอันตรายต่อตัวรถหรือเสี่ยงต่อการเกิดอุบัติเหตุ</li>
-                <li><strong>4x4 Membrane Keypad (Input):</strong> ใช้สำหรับให้ผู้ใช้งานกดปุ่มตั้งค่าระยะห่างอันตรายที่ต้องการให้ระบบเริ่มส่งสัญญาณเตือน (เช่น ตั้งค่าระยะเตือนไว้ที่ 30 เซนติเมตร)</li>
-                <li><strong>7-Segment Display (Output):</strong> ทำหน้าที่แสดงผลตัวเลขระยะห่างระหว่างรถกับผนัง (หน่วยเป็นเซนติเมตร) และจะเปลี่ยนรูปแบบการแสดงผลเป็นการกะพริบแจ้งเตือน เมื่อรถถอยเข้ามาใกล้เกินระยะที่กำหนดหรือเมื่ออุณหภูมิสูงเกินเกณฑ์</li>
-            </ul>
-        </section>
-
-        <!-- GitHub Repository Links Section -->
-        <section id="code">
-            <h2>5. GitHub Source Code</h2>
-            <p>สามารถเข้าถึงซอร์สโค้ด (Source Code) และไฟล์เอกสารทั้งหมดของโปรเจกต์ได้ผ่านลิงก์ GitHub Repository ด้านล่างนี้:</p>
-            <ul>
-                <li>
-                    <strong>GitHub Repository URL:</strong> 
-                    <a href="https://github.com/Thosesky/Smart-Parking-Assistant-w-IOT" target="_blank">https://github.com/Thosesky/Smart-Parking-Assistant-w-IOT</a>
-                    <br>
-                    <em>(หมายเหตุ: ตัว Repository ได้ตั้งค่าสถานะเป็น Public เรียบร้อยแล้ว ตามข้อกำหนดของรายวิชา)</em>
-                </li>
-            </ul>
-        </section>
-
+        <h2>บทคัดย่อ (Abstract)</h2>
+        <p>โครงงานนี้จัดทำขึ้นเพื่อพัฒนา "ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ (Smart Garage Parking Assistant)" โดยมีวัตถุประสงค์เพื่อแก้ปัญหาความยากลำบากในการกะระยะถอยรถเข้าพื้นที่จำกัด ซึ่งอาจก่อให้เกิดอุบัติเหตุเฉี่ยวชน รวมถึงช่วยเฝ้าระวังความร้อนสะสมภายในโรงรถที่อาจส่งผลกระทบต่อตัวรถ ระบบนี้พัฒนาขึ้นโดยใช้บอร์ดไมโครคอนโทรลเลอร์ร่วมกับเซนเซอร์และอุปกรณ์อิเล็กทรอนิกส์ ได้แก่ Ultra Sonic Sensor สำหรับวัดระยะห่างระหว่างท้ายรถกับผนังกำแพงแบบเรียลไทม์, Temp Sensor สำหรับตรวจสอบอุณหภูมิภายในโรงรถ, Keypad สำหรับให้ผู้ใช้ตั้งค่าระยะห่างปลอดภัย และแสดงผลข้อมูลระยะทางหรือสถานะการเตือนผ่านหน้าจอ 7-Segment ผลการดำเนินงานพบว่าระบบสามารถช่วยอำนวยความสะดวกในการถอยจอดได้อย่างแม่นยำ พร้อมทั้งแจ้งเตือนความผิดปกติของอุณหภูมิได้อย่างมีประสิทธิภาพ ช่วยเพิ่มความปลอดภัยให้กับทรัพย์สินและผู้ใช้งานได้เป็นอย่างดี</p>
     </div>
 
     <!-- Site Footer & Copyright Notice -->
@@ -207,5 +218,14 @@
         <p>© 2024 Smart Parking Assistant Project - Physical Computing IT KMITL</p>
     </footer>
 
+    <!-- Script for Loader Dismissal -->
+    <script>
+        window.addEventListener('load', function() {
+            const loaderWrapper = document.getElementById('loader-wrapper');
+            setTimeout(() => {
+                loaderWrapper.classList.add('loader-hidden');
+            }, 500);
+        });
+    </script>
 </body>
 </html>

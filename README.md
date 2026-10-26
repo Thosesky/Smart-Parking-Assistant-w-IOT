@@ -1,6 +1,6 @@
 # Smart-Parking-Assistant-w-IOT
-# Website
-<img width="2245" height="3179" alt="index" src="https://thosesky.github.io/Smart-Parking-Assistant-w-IOT/" />
+#🌐 Live Website:
+[https://Thosesky.github.io/Smart-Parking-Assistant-w-IOT/](https://Thosesky.github.io/Smart-Parking-Assistant-w-IOT/)
 # Poster
 <img width="2245" height="3179" alt="smart garage parking assistant" src="smart garage parking assistant.png" />
 ## โครงงาน: ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ (Smart Parking Assistant)

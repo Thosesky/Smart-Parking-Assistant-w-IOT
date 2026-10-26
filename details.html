@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking Assistant - Details</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
+        nav { position: fixed; top: 0; width: 100%; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; box-sizing: border-box; z-index: 1000; }
+        .logo { font-size: 20px; font-weight: bold; color: #008080; }
+        .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
+        .nav-links li { margin-left: 20px; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #008080; font-weight: bold; }
+        .container { max-width: 900px; margin: 120px auto 40px auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h2 { border-bottom: 3px solid #008080; padding-bottom: 8px; color: #2c3e50; }
+        ul { line-height: 1.8; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: white; margin-top: 50px; }
+
+        #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s ease; }
+        .loader { position: relative; width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; }
+        .car-icon { font-size: 32px; animation: bounce 1s infinite alternate ease-in-out; }
+        .spinner { position: absolute; width: 70px; height: 70px; border: 4px solid #e0e0e0; border-top: 4px solid #008080; border-radius: 50%; animation: spin 1s linear infinite; }
+        .loader-text { margin-top: 20px; font-size: 16px; font-weight: 600; color: #008080; letter-spacing: 1px; animation: pulse 1.5s infinite ease-in-out; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        #loader-wrapper.loader-hidden { opacity: 0; visibility: hidden; }
+    </style>
+</head>
+<body>
+
+    <div id="loader-wrapper">
+        <div class="loader">
+            <div class="car-icon">🚗</div>
+            <div class="spinner"></div>
+        </div>
+        <p class="loader-text">Loading Smart Parking System...</p>
+    </div>
+
+    <nav>
+        <div class="logo">🚗 Smart Parking</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Abstract</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="poster.html">Poster</a></li>
+            <li><a href="details.html" class="active">Details</a></li>
+            <li><a href="code.html">Code</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>รายละเอียดการทำงานของวงจรและเซนเซอร์</h2>
+        <p>ในโครงงาน Smart Garage Parking Assistant (ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ) มีการเชื่อมต่ออุปกรณ์ไมโครคอนโทรลเลอร์เข้ากับเซนเซอร์และโมดูลต่างๆ ดังนี้:</p>
+
+        <h3>4.1 ภาพรวมการทำงานของวงจร (Circuit Overview)</h3>
+        <p>วงจรหลักถูกออกแบบมาเพื่อติดตั้งบริเวณผนังด้านในสุดของโรงรถ โดยไมโครคอนโทรลเลอร์ทำหน้าที่เป็นศูนย์กลางในการรับสัญญาณข้อมูลจากอุปกรณ์ Input ประมวลผลตรรกะการทำงาน (Logic) และส่งคำสั่งแสดงผลออกไปยังอุปกรณ์ Output อย่างแม่นยำ</p>
+
+        <h3>4.2 รายละเอียดการทำงานของเซนเซอร์และอุปกรณ์ (Sensors & Modules)</h3>
+        <ul>
+            <li><strong>Ultra Sonic Sensor (Input):</strong> ทำหน้าที่ยิงคลื่นเสียงความถี่สูงเพื่อวัดระยะห่างระหว่างท้ายรถกับผนังกำแพงแบบเรียลไทม์ เพื่อให้ผู้ขับขี่ทราบระยะทางที่เหลือขณะถอยรถเข้าจอด</li>
+            <li><strong>Temperature Sensor (Input):</strong> ทำหน้าที่ตรวจสอบอุณหภูมิโดยรอบภายในโรงรถอย่างต่อเนื่อง เพื่อเฝ้าระวังความร้อนสะสมที่อาจเป็นอันตรายต่อตัวรถหรือเสี่ยงต่อการเกิดอุบัติเหตุ</li>
+            <li><strong>4x4 Membrane Keypad (Input):</strong> ใช้สำหรับให้ผู้ใช้งานกดปุ่มตั้งค่าระยะห่างอันตรายที่ต้องการให้ระบบเริ่มส่งสัญญาณเตือน (เช่น ตั้งค่าระยะเตือนไว้ที่ 30 เซนติเมตร)</li>
+            <li><strong>7-Segment Display (Output):</strong> ทำหน้าที่แสดงผลตัวเลขระยะห่างระหว่างรถกับผนัง (หน่วยเป็นเซนติเมตร) และจะเปลี่ยนรูปแบบการแสดงผลเป็นการกะพริบแจ้งเตือน เมื่อรถถอยเข้ามาใกล้เกินระยะที่กำหนดหรือเมื่ออุณหภูมิสูงเกินเกณฑ์</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>© 2024 Smart Parking Assistant Project - Physical Computing IT KMITL</p>
+    </footer>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loaderWrapper = document.getElementById('loader-wrapper');
+            setTimeout(() => {
+                loaderWrapper.classList.add('loader-hidden');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

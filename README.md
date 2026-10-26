@@ -21,3 +21,6 @@
 - Temperature Sensor
 - 7-Segment Display
 - 4x4 Membrane Keypad
+
+# Poster
+<img width="2245" height="3179" alt="smart garage parking assistant" src="https://github.com/user-attachments/assets/2ff30903-96aa-4a5c-a280-87650adfe9d5" />

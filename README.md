@@ -1,4 +1,8 @@
 # Smart-Parking-Assistant-w-IOT
+# Website
+<img width="2245" height="3179" alt="index" src="index.html" />
+# Poster
+<img width="2245" height="3179" alt="smart garage parking assistant" src="smart garage parking assistant.png" />
 ## โครงงาน: ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ (Smart Parking Assistant)
 
 ### รายชื่อสมาชิกในกลุ่ม
@@ -21,6 +25,7 @@
 - Temperature Sensor
 - 7-Segment Display
 - 4x4 Membrane Keypad
-
+# Website
+<img width="2245" height="3179" alt="smart garage parking assistant" src="smart garage parking assistant.png" />
 # Poster
 <img width="2245" height="3179" alt="smart garage parking assistant" src="smart garage parking assistant.png" />

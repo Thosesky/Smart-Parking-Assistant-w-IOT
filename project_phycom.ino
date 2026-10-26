@@ -1,0 +1,158 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
+
+const int trigPin = 10;
+const int echoPin = 11;
+int warningDistance = 30; 
+
+const int mcp9700Pin = A0; 
+const int maxTempLimit = 70; 
+float currentTemp = 0.0;
+unsigned long lastTempRead = 0;
+
+const int buzzerPin = 12; 
+
+const byte ROWS = 4;
+const byte COLS = 4;
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+byte rowPins[ROWS] = {9, 8, 7, 6}; 
+byte colPins[COLS] = {5, 4, 3, 2}; 
+
+String inputBuffer = ""; 
+
+void setup() {
+  Serial.begin(9600);
+  
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Smart Garage System");
+  
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+  digitalWrite(buzzerPin, LOW);
+
+  for (int i = 0; i < ROWS; i++) pinMode(rowPins[i], INPUT_PULLUP);
+  for (int i = 0; i < COLS; i++) pinMode(colPins[i], INPUT);
+
+  delay(1500);
+  lcd.clear();
+}
+
+void loop() {
+  if (millis() - lastTempRead >= 1000) {
+    lastTempRead = millis();
+    long sumRaw = 0;
+    for (int i = 0; i < 10; i++) {
+      sumRaw += analogRead(mcp9700Pin);
+      delay(2);
+    }
+    float avgRaw = sumRaw / 10.0;
+    float voltage = avgRaw * (5.0 / 1023.0);
+    currentTemp = (voltage - 0.5) * 100.0;
+  }
+
+  int currentDistance = getDistance();
+  
+  char key = getCustomKey();
+  
+  if (key) {
+    if (key >= '0' && key <= '9') {
+      if (inputBuffer.length() < 3) {
+        inputBuffer += key;
+      }
+    } 
+    else if (key == 'A') { 
+      if (inputBuffer.length() > 0) {
+        warningDistance = inputBuffer.toInt();
+        inputBuffer = "";
+        lcd.clear();
+        lcd.print("Set Limit: Saved!");
+        delay(1000);
+        lcd.clear();
+      }
+    }
+    else if (key == 'C') { 
+      inputBuffer = "";
+    }
+  }
+
+  bool isTempOverheat = (currentTemp >= maxTempLimit);
+  bool isTooClose = (currentDistance <= warningDistance);
+
+  if (isTempOverheat || isTooClose) {
+    digitalWrite(buzzerPin, HIGH);
+  } else {
+    digitalWrite(buzzerPin, LOW);
+  }
+
+  lcd.setCursor(0, 0);
+  lcd.print("D:");
+  lcd.print(currentDistance);
+  lcd.print("cm ");
+  
+  lcd.setCursor(9, 0);
+  lcd.print("T:");
+  lcd.print((int)currentTemp);
+  if (isTempOverheat) {
+    lcd.print("C! "); 
+  } else {
+    lcd.print((char)223); 
+    lcd.print("C  ");
+  }
+
+  lcd.setCursor(0, 1);
+  if (inputBuffer.length() > 0) {
+    lcd.print("Set Limit: ");
+    lcd.print(inputBuffer);
+    lcd.print("  ");
+  } 
+  else if (isTempOverheat) {
+    lcd.print("!! OVERHEAT !!  ");
+  } 
+  else if (isTooClose) {
+    lcd.print("!!! STOP !!!    ");
+  } 
+  else {
+    lcd.print("Safe (Lim:");
+    lcd.print(warningDistance);
+    lcd.print(") ");
+  }
+  
+  delay(100);
+}
+
+int getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  return duration * 0.034 / 2;
+}
+
+char getCustomKey() {
+  char pressedKey = '\0';
+  for (int c = 0; c < COLS; c++) {
+    pinMode(colPins[c], OUTPUT);
+    digitalWrite(colPins[c], LOW);
+    
+    for (int r = 0; r < ROWS; r++) {
+      if (digitalRead(rowPins[r]) == LOW) {
+        pressedKey = keys[r][c];
+        delay(250); 
+      }
+    }
+    pinMode(colPins[c], INPUT);
+  }
+  return pressedKey;
+}

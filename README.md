@@ -1,5 +1,6 @@
 # Smart-Parking-Assistant-w-IOT
-#🌐 Live Website:
+
+# 🌐 Live Website:
 [https://Thosesky.github.io/Smart-Parking-Assistant-w-IOT/](https://Thosesky.github.io/Smart-Parking-Assistant-w-IOT/)
 # Poster
 <img width="2245" height="3179" alt="smart garage parking assistant" src="smart garage parking assistant.png" />
@@ -15,13 +16,13 @@
 
 ### รายละเอียดโปรเจกต์
 ระบบนี้จะถูกติดตั้งไว้ที่กำแพงด้านในสุดของโรงรถ โดยมีการทำงานหลักดังนี้:
-- **แสดงระยะถอยจอดแบบ Real-time:** ใช้ Ultra Sonic Sensor วัดระยะห่างระหว่างท้ายรถกับกำแพง และแสดงผลเป็นตัวเลขระยะทางผ่านหน้าจอ 7-Segment
-- **กำหนดระยะปลอดภัย:** ผู้ใช้สามารถป้อนตัวเลขระยะห่างที่ต้องการให้ระบบแจ้งเตือนอันตรายได้ผ่าน Keypad 
-- **เฝ้าระวังอุณหภูมิ:** มี Temp Sensor คอยตรวจจับอุณหภูมิในโรงรถ หากอุณหภูมิสูงเกินเกณฑ์ที่ตั้งไว้ หน้าจอ 7-Segment จะกะพริบเพื่อแจ้งเตือนความเสี่ยง
+- **แสดงระยะถอยจอดแบบ Real-time:** ใช้ Ultra Sonic Sensor วัดระยะห่างระหว่างท้ายรถกับกำแพง และแสดงผลเป็นตัวเลขระยะทางผ่านหน้าจอ LCD เมื่อระยะห่างเลยระยะที่กำหนดจะมีข้อความ STOP
+- **กำหนดระยะปลอดภัย:** ผู้ใช้สามารถป้อนตัวเลขระยะห่างที่ต้องการให้ระบบแจ้งเตือนอันตรายได้ผ่าน Keypad โดยการ กดเลขเพื่อตั้งระยะ กดAเพื่อsave กดCเพื่อclear
+- **เฝ้าระวังอุณหภูมิ:** มี Temp Sensor คอยตรวจจับอุณหภูมิในโรงรถ หากอุณหภูมิสูงเกินเกณฑ์ที่ตั้งไว้ หน้าจอ LCD จะมีข้อความ OVERHEAT เพื่อแจ้งเตือนความเสี่ยง
 
 ### อุปกรณ์ที่ใช้งาน (Sensors & Modules)
 - บอร์ด Microcontroller
 - Ultra Sonic Sensor
 - Temperature Sensor
-- 7-Segment Display
 - 4x4 Membrane Keypad
+- LCD

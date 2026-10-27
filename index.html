@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Parking Assistant - Abstract</title>
+    <title>Smart Parking Assistant - Abstract & Live Data</title>
     <style>
-        /* Global Base Layout Styles */
+        /* ==========================================================================
+           Global Base Layout & Typography
+           ========================================================================== */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
@@ -14,7 +16,9 @@
             color: #333; 
         }
 
-        /* Fixed Navigation Header */
+        /* ==========================================================================
+           Component: Main Navigation Bar (Fixed Top)
+           ========================================================================== */
         nav { 
             position: fixed; 
             top: 0; 
@@ -58,7 +62,9 @@
             font-weight: bold; 
         }
 
-        /* Hero Banner Section */
+        /* ==========================================================================
+           Component: Hero Banner Section
+           ========================================================================== */
         .hero { 
             background-color: #008080; 
             color: white; 
@@ -72,7 +78,9 @@
             margin-bottom: 10px;
         }
 
-        /* Core Content Card */
+        /* ==========================================================================
+           Component: Main Content Container & Typography
+           ========================================================================== */
         .container { 
             max-width: 900px; 
             margin: 40px auto; 
@@ -92,7 +100,9 @@
             line-height: 1.8;
         }
 
-        /* Main Footer Section */
+        /* ==========================================================================
+           Component: Site Footer
+           ========================================================================== */
         footer { 
             text-align: center; 
             padding: 20px; 
@@ -101,7 +111,9 @@
             margin-top: 50px; 
         }
 
-        /* Page Loader Base Overlay */
+        /* ==========================================================================
+           Component: Full-screen Page Loader Overlay
+           ========================================================================== */
         #loader-wrapper {
             position: fixed;
             top: 0;
@@ -150,7 +162,7 @@
             animation: pulse 1.5s infinite ease-in-out;
         }
 
-        /* Animation Keyframes Definition */
+        /* Animation Keyframes */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -166,6 +178,7 @@
             50% { opacity: 1; }
         }
 
+        /* Utility class for hiding the loader */
         #loader-wrapper.loader-hidden {
             opacity: 0;
             visibility: hidden;
@@ -174,7 +187,7 @@
 </head>
 <body>
 
-    <!-- Global Page Loader Container -->
+    <!-- UI Component: Page Initial Loader -->
     <div id="loader-wrapper">
         <div class="loader">
             <div class="car-icon">🚗</div>
@@ -183,7 +196,7 @@
         <p class="loader-text">Loading Smart Parking System...</p>
     </div>
 
-    <!-- Global Navigation Header -->
+    <!-- UI Component: Main Navigation -->
     <nav>
         <div class="logo">🚗 Smart Parking</div>
         <ul class="nav-links">
@@ -195,7 +208,7 @@
         </ul>
     </nav>
 
-    <!-- Hero Showcase Area -->
+    <!-- UI Component: Hero Header & Team Members -->
     <div class="hero">
         <h1>Smart Parking Assistant</h1>
         <p><strong>ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ</strong></p>
@@ -207,19 +220,49 @@
         </p>
     </div>
 
-    <!-- Main Content Body -->
+    <!-- Application Main Content Area -->
     <div class="container">
+        
+        <!-- Module: IoT Real-time Dashboard -->
+        <div style="background: #ffffff; border: 2px solid #008080; border-radius: 10px; padding: 25px; margin-bottom: 40px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h2 style="color: #008080; margin-top: 0; border: none; padding-bottom: 0;">📡 Live Garage Status (IoT Real-time)</h2>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
+                
+                <!-- Sensor Node: Ultrasonic (Distance) -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; flex: 1; min-width: 150px; box-shadow: inset 0 0 8px rgba(0,0,0,0.05);">
+                    <div style="font-size: 16px; color: #666; font-weight: bold;">ระยะห่าง (Distance)</div>
+                    <div style="font-size: 42px; font-weight: bold; color: #2c3e50; margin: 10px 0;"><span id="live-dist">--</span> <small style="font-size: 18px;">cm</small></div>
+                    <div id="dist-status" style="font-weight: bold; font-size: 15px; padding: 6px; border-radius: 5px; background: #e2e8f0; color: #475569;">Checking...</div>
+                </div>
+
+                <!-- Sensor Node: MCP9700 (Temperature) -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; flex: 1; min-width: 150px; box-shadow: inset 0 0 8px rgba(0,0,0,0.05);">
+                    <div style="font-size: 16px; color: #666; font-weight: bold;">อุณหภูมิ (Temperature)</div>
+                    <div style="font-size: 42px; font-weight: bold; color: #2c3e50; margin: 10px 0;"><span id="live-temp">--</span> <small style="font-size: 18px;">°C</small></div>
+                    <div id="temp-status" style="font-weight: bold; font-size: 15px; padding: 6px; border-radius: 5px; background: #e2e8f0; color: #475569;">Checking...</div>
+                </div>
+                
+            </div>
+            <!-- Metadata: Last Sync Timestamp -->
+            <div style="font-size: 13px; color: #888; margin-top: 20px;">อัปเดตข้อมูลล่าสุดเวลา: <span id="last-update">Waiting for data...</span></div>
+        </div>
+
+        <!-- Module: Project Abstract -->
         <h2>บทคัดย่อ (Abstract)</h2>
-        <p>โครงงานนี้จัดทำขึ้นเพื่อพัฒนา "ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ (Smart Garage Parking Assistant)" โดยมีวัตถุประสงค์เพื่อแก้ปัญหาความยากลำบากในการกะระยะถอยรถเข้าพื้นที่จำกัด ซึ่งอาจก่อให้เกิดอุบัติเหตุเฉี่ยวชน รวมถึงช่วยเฝ้าระวังความร้อนสะสมภายในโรงรถที่อาจส่งผลกระทบต่อตัวรถ ระบบนี้พัฒนาขึ้นโดยใช้บอร์ดไมโครคอนโทรลเลอร์ร่วมกับเซนเซอร์และอุปกรณ์อิเล็กทรอนิกส์ ได้แก่ Ultra Sonic Sensor สำหรับวัดระยะห่างระหว่างท้ายรถกับผนังกำแพงแบบเรียลไทม์, Temp Sensor สำหรับตรวจสอบอุณหภูมิภายในโรงรถ, Keypad สำหรับให้ผู้ใช้ตั้งค่าระยะห่างปลอดภัย และแสดงผลข้อมูลระยะทางและสถานะการเตือนผ่านหน้าจอ LCD ผลการดำเนินงานพบว่าระบบสามารถช่วยอำนวยความสะดวกในการถอยจอดได้อย่างแม่นยำ พร้อมทั้งแจ้งเตือนความผิดปกติของอุณหภูมิได้อย่างมีประสิทธิภาพ ช่วยเพิ่มความปลอดภัยให้กับทรัพย์สินและผู้ใช้งานได้เป็นอย่างดี</p>
+        <p>โครงงานนี้จัดทำขึ้นเพื่อพัฒนา "ระบบผู้ช่วยถอยจอดและเฝ้าระวังอุณหภูมิโรงรถ (Smart Garage Parking Assistant)" โดยมีวัตถุประสงค์เพื่อแก้ปัญหาความยากลำบากในการกะระยะถอยรถเข้าพื้นที่จำกัด ซึ่งอาจก่อให้เกิดอุบัติเหตุเฉี่ยวชน รวมถึงช่วยเฝ้าระวังความร้อนสะสมภายในโรงรถที่อาจส่งผลกระทบต่อตัวรถ ระบบนี้พัฒนาขึ้นโดยใช้บอร์ดไมโครคอนโทรลเลอร์ร่วมกับเซนเซอร์และอุปกรณ์อิเล็กทรอนิกส์ ได้แก่ Ultra Sonic Sensor สำหรับวัดระยะห่างระหว่างท้ายรถกับผนังกำแพงแบบเรียลไทม์, Temp Sensor สำหรับตรวจสอบอุณหภูมิภายในโรงรถ, Keypad สำหรับให้ผู้ใช้ตั้งค่าระยะห่างปลอดภัย และแสดงผลข้อมูลระยะทางหรือสถานะการเตือนผ่านหน้าจอ LCD ผลการดำเนินงานพบว่าระบบสามารถช่วยอำนวยความสะดวกในการถอยจอดได้อย่างแม่นยำ พร้อมทั้งแจ้งเตือนความผิดปกติของอุณหภูมิได้อย่างมีประสิทธิภาพ รวมถึงมีการพัฒนาต่อยอดระบบ IoT เพื่อรายงานสถานะขึ้นสู่หน้าเว็บ Dashboard แบบ Real-time ช่วยเพิ่มความปลอดภัยให้กับทรัพย์สินและผู้ใช้งานได้เป็นอย่างดี</p>
     </div>
 
-    <!-- Site Footer & Copyright Notice -->
+    <!-- UI Component: Footer -->
     <footer>
-        <p>Smart Parking Assistant Project - Physical Computing IT KMITL</p>
+        <p>© 2024 Smart Parking Assistant Project - Physical Computing IT KMITL</p>
     </footer>
 
-    <!-- Script for Loader Dismissal -->
+    <!-- Script: UI Interactions -->
     <script>
+        /**
+         * Event Listener for Window Load Event
+         * Handles the dismissal of the preloader once the DOM and assets are fully loaded.
+         */
         window.addEventListener('load', function() {
             const loaderWrapper = document.getElementById('loader-wrapper');
             setTimeout(() => {
@@ -227,5 +270,83 @@
             }, 500);
         });
     </script>
+
+    <!-- Script: IoT Data Fetching Service (ThingSpeak API) -->
+    <script>
+        /**
+         * Configuration Constants
+         * CHANNEL_ID: ThingSpeak Public Channel ID for data retrieval.
+         * POLLING_INTERVAL: Frequency of API requests in milliseconds.
+         */
+        const CHANNEL_ID = '3553763'; 
+        const POLLING_INTERVAL = 5000;
+
+        /**
+         * Asynchronous function to fetch and parse telemetry data from ThingSpeak.
+         * Updates the DOM elements with real-time sensor metrics and applies conditional styling.
+         */
+        async function fetchThingSpeakData() {
+            try {
+                // Execute HTTP GET request to ThingSpeak REST API
+                const response = await fetch(`https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json`);
+                const data = await response.json();
+
+                if (data) {
+                    // Extract payload fields (Fallback to 0 if null/undefined)
+                    const distance = parseFloat(data.field1) || 0;
+                    const temp = parseFloat(data.field2) || 0;
+                    
+                    // Format timestamp to local time string (Thai Locale)
+                    const time = new Date(data.created_at).toLocaleTimeString('th-TH');
+
+                    // Inject values into DOM nodes
+                    document.getElementById('live-dist').innerText = distance;
+                    document.getElementById('live-temp').innerText = temp;
+                    document.getElementById('last-update').innerText = time;
+
+                    // --------------------------------------------------------
+                    // State Management: Distance Sensor
+                    // Threshold: Alert if distance is 30 cm or below
+                    // --------------------------------------------------------
+                    const distStatus = document.getElementById('dist-status');
+                    if (distance <= 30) {
+                        distStatus.innerHTML = '⚠️ อันตราย (STOP/CLOSE)';
+                        distStatus.style.backgroundColor = '#fee2e2';
+                        distStatus.style.color = '#b91c1c';
+                    } else {
+                        distStatus.innerHTML = '✅ ปลอดภัย (SAFE)';
+                        distStatus.style.backgroundColor = '#dcfce7';
+                        distStatus.style.color = '#15803d';
+                    }
+
+                    // --------------------------------------------------------
+                    // State Management: Temperature Sensor
+                    // Threshold: Alert if temperature reaches 50 °C or above
+                    // --------------------------------------------------------
+                    const tempStatus = document.getElementById('temp-status');
+                    if (temp >= 50) {
+                        tempStatus.innerHTML = '🔥 ร้อนเกินไป (OVERHEAT)';
+                        tempStatus.style.backgroundColor = '#fee2e2';
+                        tempStatus.style.color = '#b91c1c';
+                    } else {
+                        tempStatus.innerHTML = '✅ ปกติ (NORMAL)';
+                        tempStatus.style.backgroundColor = '#dcfce7';
+                        tempStatus.style.color = '#15803d';
+                    }
+                }
+            } catch (err) {
+                // Exception handling for network or API failures
+                console.error('API Fetch Error:', err);
+                document.getElementById('last-update').innerText = 'Connection Lost - Retrying...';
+            }
+        }
+
+        // Initialize first data fetch immediately
+        fetchThingSpeakData();
+        
+        // Register interval for continuous background polling
+        setInterval(fetchThingSpeakData, POLLING_INTERVAL);
+    </script>
+
 </body>
 </html>

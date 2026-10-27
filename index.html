@@ -226,6 +226,13 @@
         <!-- Module: IoT Real-time Dashboard -->
         <div style="background: #ffffff; border: 2px solid #008080; border-radius: 10px; padding: 25px; margin-bottom: 40px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
             <h2 style="color: #008080; margin-top: 0; border: none; padding-bottom: 0;">📡 Live Garage Status (IoT Real-time)</h2>
+            
+            <!-- Dynamic Safe Limit Indicator Badge -->
+            <div style="margin-top: 10px; font-size: 14px; color: #555;">
+                🎯 ระยะปลอดภัยที่ตั้งค่าไว้ (Configured Threshold): 
+                <strong style="color: #008080; font-size: 16px;"><span id="live-limit">30</span> cm</strong>
+            </div>
+
             <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
                 
                 <!-- Sensor Node: Ultrasonic (Distance) -->
@@ -283,7 +290,7 @@
 
         /**
          * Asynchronous function to fetch and parse telemetry data from ThingSpeak.
-         * Updates the DOM elements with real-time sensor metrics and applies conditional styling.
+         * Updates the DOM elements with real-time sensor metrics and applies dynamic threshold evaluation.
          */
         async function fetchThingSpeakData() {
             try {
@@ -292,9 +299,12 @@
                 const data = await response.json();
 
                 if (data) {
-                    // Extract payload fields (Fallback to 0 if null/undefined)
+                    // Extract payload fields (Fallback to defaults if null/undefined)
                     const distance = parseFloat(data.field1) || 0;
                     const temp = parseFloat(data.field2) || 0;
+                    
+                    // Dynamic Safe Distance Limit from Arduino Keypad (Field 3, fallback to 30 cm)
+                    const warningDistance = parseFloat(data.field3) || 30; 
                     
                     // Format timestamp to local time string (Thai Locale)
                     const time = new Date(data.created_at).toLocaleTimeString('th-TH');
@@ -302,29 +312,30 @@
                     // Inject values into DOM nodes
                     document.getElementById('live-dist').innerText = distance;
                     document.getElementById('live-temp').innerText = temp;
+                    document.getElementById('live-limit').innerText = warningDistance;
                     document.getElementById('last-update').innerText = time;
 
                     // --------------------------------------------------------
                     // State Management: Distance Sensor
-                    // Threshold: Alert if distance is 30 cm or below
+                    // Dynamic Threshold Evaluation: Alert if distance <= warningDistance
                     // --------------------------------------------------------
                     const distStatus = document.getElementById('dist-status');
-                    if (distance <= 30) {
-                        distStatus.innerHTML = '⚠️ อันตราย (STOP/CLOSE)';
+                    if (distance <= warningDistance) {
+                        distStatus.innerHTML = `⚠️ อันตราย (STOP / <= ${warningDistance} cm)`;
                         distStatus.style.backgroundColor = '#fee2e2';
                         distStatus.style.color = '#b91c1c';
                     } else {
-                        distStatus.innerHTML = '✅ ปลอดภัย (SAFE)';
+                        distStatus.innerHTML = `✅ ปลอดภัย (SAFE / > ${warningDistance} cm)`;
                         distStatus.style.backgroundColor = '#dcfce7';
                         distStatus.style.color = '#15803d';
                     }
 
                     // --------------------------------------------------------
                     // State Management: Temperature Sensor
-                    // Threshold: Alert if temperature reaches 50 °C or above
+                    // Threshold: Alert if temperature reaches 70 °C or above
                     // --------------------------------------------------------
                     const tempStatus = document.getElementById('temp-status');
-                    if (temp >= 50) {
+                    if (temp >= 70) {
                         tempStatus.innerHTML = '🔥 ร้อนเกินไป (OVERHEAT)';
                         tempStatus.style.backgroundColor = '#fee2e2';
                         tempStatus.style.color = '#b91c1c';
